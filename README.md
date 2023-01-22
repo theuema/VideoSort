@@ -74,6 +74,7 @@ These specifiers can be used with all three types of supported video files:
  - %ext - file extension;
  - %Ext - file extension (case-adjusted);
  - %qf - video format (HTDV, BluRay, WEB-DL);
+ - %qhdr - hdr version (HDR, DV);
  - %qss - screen size (720p, 1080i);
  - %qvc - video codec (x264);
  - %qac - audio codec (DTS);

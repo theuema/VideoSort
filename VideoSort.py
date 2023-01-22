@@ -126,6 +126,7 @@
 # %ext            - file extension;
 # %Ext            - file extension (case-adjusted);
 # %qf             - video format (HTDV, BluRay, WEB-DL);
+# %qhdr           - hdr version (HDR, DV);
 # %qss            - screen size (720p, 1080i);
 # %qvc            - video codec (x264);
 # %qac            - audio codec (DTS);
@@ -747,7 +748,7 @@ except:
 
 # END * From SABnzbd+ * END
 
-def add_common_mapping(old_filename, guess, mapping):
+def add_common_mapping(old_filename, guessedfn, guess, mapping):
 
     # Original dir name, file name and extension
     original_dirname = os.path.basename(download_dir)
@@ -792,6 +793,14 @@ def add_common_mapping(old_filename, guess, mapping):
     mapping.append(('%cAt', category_name))
     mapping.append(('%.cAt', category_name_two))
     mapping.append(('%_cAt', category_name_three))
+
+    # DV and HDR not supported by guessit; quickfix
+    if 'DV' in guessedfn:
+        mapping.append(('%qhdr', 'DV'))
+    elif 'HDR' in guessedfn:
+        mapping.append(('%qhdr', 'HDR'))
+    else:
+        mapping.append(('%qhdr', '')) 
 
     # Video information
     mapping.append(('%qf', guess.get('format', '')))
@@ -1161,7 +1170,7 @@ def guess_info(filename):
     if verbose:
         print(guess)
 
-    return guess
+    return guess, guessfilename
 
 def construct_path(filename):
     """ Parses the filename and generates new name for renaming """
@@ -1169,10 +1178,10 @@ def construct_path(filename):
     if verbose:
         print("filename: %s" % filename)
 
-    guess = guess_info(filename)
+    guess, guessedfn = guess_info(filename)
     type = guess.get('vtype')
     mapping = []
-    add_common_mapping(filename, guess, mapping)
+    add_common_mapping(filename, guessedfn, guess, mapping)
 
     if type == 'movie':
         dest_dir = movies_dir
