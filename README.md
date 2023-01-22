@@ -73,11 +73,12 @@ These specifiers can be used with all three types of supported video files:
  - %fn - original filename;
  - %ext - file extension;
  - %Ext - file extension (case-adjusted);
- - %qf - video format (HTDV, BluRay, WEB-DL);
+ - %qs - source (HTDV, BluRay, WEB-DL);
  - %qhdr - hdr version (HDR, DV);
- - %qss - screen size (720p, 1080i);
+ - %qss - screen size (1080p, 2160p);
  - %qvc - video codec (x264);
  - %qac - audio codec (DTS);
+ - %qac, %.qac - audio codec (Dolby TrueHD, Dolby.Atmos) separated with spaces or dots;
  - %qah - audio channels (5.1);
  - %qrg - release group;
  - {{text}} - uppercase the text;

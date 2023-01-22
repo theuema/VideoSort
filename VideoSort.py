@@ -125,11 +125,12 @@
 # %cAt, %.cAt, %_cAt - category (original letter case);
 # %ext            - file extension;
 # %Ext            - file extension (case-adjusted);
-# %qf             - video format (HTDV, BluRay, WEB-DL);
+# %qs             - source (HTDV, BluRay, WEB);
 # %qhdr           - hdr version (HDR, DV);
 # %qss            - screen size (720p, 1080i);
 # %qvc            - video codec (x264);
-# %qac            - audio codec (DTS);
+# %qac, %.qac     - audio codec (Dolby TrueHD, Dolby.Atmos) 
+#                   separated with spaces or dots;
 # %qah            - audio channels (5.1);
 # %qrg            - release group;
 # {{text}}        - uppercase the text;
@@ -610,6 +611,12 @@ def path_subst(path, mapping):
         n += 1
     return ''.join(map(lambda x: '.'.join(x) if isinstance(x, list) else str(x), newpath))
 
+def get_dots_from_spaces(ss):
+    # String with spaces (many properties in guessit 3) replaced with dot separated strings
+    dots = ss.replace(" - ", "-").replace(' ','.').replace('_','.')
+    dots = dots.replace('(', '.').replace(')','.').replace('..','.').rstrip('.')
+    return dots
+
 def get_titles(name, titleing=False):
     '''
     The title will be the part before the match
@@ -794,6 +801,7 @@ def add_common_mapping(old_filename, guessedfn, guess, mapping):
     mapping.append(('%.cAt', category_name_two))
     mapping.append(('%_cAt', category_name_three))
 
+    # Video information
     # DV and HDR not supported by guessit; quickfix
     if 'DV' in guessedfn:
         mapping.append(('%qhdr', 'DV'))
@@ -801,12 +809,18 @@ def add_common_mapping(old_filename, guessedfn, guess, mapping):
         mapping.append(('%qhdr', 'HDR'))
     else:
         mapping.append(('%qhdr', '')) 
+    # Guessit v3 migration for dots filenames
+    qac = guess.get('audio_codec', '')
+    dotsqac = get_dots_from_spaces(qac)
+    mapping.append(('%qac', qac))
+    mapping.append(('%.qac', dotsqac))
+    source = guess.get('source', '')
+    dotssource= get_dots_from_spaces(source)
+    mapping.append(('%qs', source))
+    mapping.append(('%.qs', dotssource))
 
-    # Video information
-    mapping.append(('%qf', guess.get('format', '')))
     mapping.append(('%qss', guess.get('screen_size', '')))
     mapping.append(('%qvc', guess.get('video_codec', '')))
-    mapping.append(('%qac', guess.get('audio_codec', '')))
     mapping.append(('%qah', guess.get('audio_channels', '')))
     mapping.append(('%qrg', guess.get('release_group', '')))
 
