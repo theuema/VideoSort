@@ -3,7 +3,7 @@ Post-processing script for [NZBGet](http://nzbget.net).
 
 This is a script for downloaded TV shows and movies. It uses scene-standard naming conventions to match TV shows and movies and rename/move/sort/organize them as you like.
 
-# Changelog
+**Changelog**
 - Python 3.10+ support
 - DV & HDR support by specifying %qhdr
 - guessit3 migration
