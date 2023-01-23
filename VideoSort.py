@@ -125,10 +125,10 @@
 # %cAt, %.cAt, %_cAt - category (original letter case);
 # %ext            - file extension;
 # %Ext            - file extension (case-adjusted);
-# %qs             - source (HTDV, BluRay, WEB);
+# %qs             - source (Blu-Ray, Web);
 # %qhdr           - hdr version (HDR, DV);
-# %qss            - screen size (720p, 1080i);
-# %qvc            - video codec (x264);
+# %qss            - screen size (1080p, 2160p);
+# %qvc            - video codec (x264, H.265);
 # %qac, %.qac     - audio codec (Dolby TrueHD, Dolby.Atmos) 
 #                   separated with spaces or dots;
 # %qah            - audio channels (5.1);
