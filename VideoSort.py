@@ -807,6 +807,8 @@ def add_common_mapping(old_filename, guessedfn, guess, mapping):
         mapping.append(('%qhdr', 'DV'))
     elif 'HDR' in guessedfn:
         mapping.append(('%qhdr', 'HDR'))
+    elif 'HDR10' in guessedfn:
+        mapping.append(('%qhdr', 'HDR10'))
     else:
         mapping.append(('%qhdr', '')) 
     # Guessit v3 migration for dots filenames
@@ -814,8 +816,13 @@ def add_common_mapping(old_filename, guessedfn, guess, mapping):
     dotsqac = get_dots_from_spaces(qac)
     mapping.append(('%qac', qac))
     mapping.append(('%.qac', dotsqac))
-    source = guess.get('source', '')
-    dotssource= get_dots_from_spaces(source)
+    
+    # Add very specific sources; quickfix 
+    if 'AmazonHD' in guessedfn:
+        source = 'AmazonHD'
+    else:
+        source = guess.get('source', '')
+    dotssource = get_dots_from_spaces(source)
     mapping.append(('%qs', source))
     mapping.append(('%.qs', dotssource))
 
